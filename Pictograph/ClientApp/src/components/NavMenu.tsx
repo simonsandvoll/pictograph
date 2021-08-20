@@ -24,25 +24,42 @@ export default function NavMenu() {
 
 const Wrapper = styled.header`
   margin-bottom: 46px;
+  position: sticky;
+  height: ${72 / 16}rem;
+  background-color: var(--color-gray-100);
+  top: 0;
+  z-index: 2;
+  border-bottom: 2px solid var(--color-gray-300);
 
   @media ${QUERIES.tabletAndSmaller} {
     margin-bottom: 16px;
   }
+
+  @media ${QUERIES.mobileAndSmaller} {
+    height: 102px;
+  }
 `;
 
 const NavWrapper = styled(MaxWidthWrapper)`
-  --gap: 16px;
+  --gap: 24px;
   display: flex;
   align-items: baseline;
   padding: 18px 32px;
   justify-content: space-between;
   gap: var(--gap);
-  flex-wrap: wrap;
+
+  @media ${QUERIES.mobileAndSmaller} {
+    flex-direction: column;
+  }
 `;
 
 const SubNav = styled.ul`
   display: flex;
   gap: var(--gap);
+
+  @media ${QUERIES.mobileAndSmaller} {
+    align-self: flex-end;
+  }
 `;
 
 const NavLink = styled(Link)`

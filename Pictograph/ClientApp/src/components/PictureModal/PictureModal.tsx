@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
-import { Picture } from "../Home";
 import Title from "../Text/Title";
 import UnstyledButton from "../UnstyledButton";
 import { QUERIES } from "../../constants";
 import LinkAsButton from "../LinkAsButton";
 import { snippWord } from "../Tools/WordSnipp";
+import { Picture } from "../PictureGrid/PictureGrid";
 
 interface Props {
   isOpen: boolean;
@@ -19,12 +19,18 @@ export default function PictureModal({ isOpen, onDismiss, picture }: Props) {
     <Overlay isOpen={isOpen} onDismiss={onDismiss}>
       <Content aria-label="Picture modal">
         <CloseButton onClick={onDismiss}>Close</CloseButton>
-        <PictureTitle>{snippWord(picture.name.split(".")[0])}</PictureTitle>
-        <DownloadLink href={picture.url} download>
-          Download
-        </DownloadLink>
+        <TitleWrapper>
+          <PictureTitle>{snippWord(picture.name.split(".")[0])}</PictureTitle>
+          <DownloadLink href={picture.url} download>
+            Download
+          </DownloadLink>
+        </TitleWrapper>
         <PictureWrapper>
-          <img src={picture.url} alt={picture.name} />
+          <img
+            sizes="(min-width: 1335px) 416px, (min-width: 992px) calc(calc(100vw - 72px) / 3), (min-width: 768px) calc(calc(100vw - 48px) / 2), 100vw"
+            src={picture.url}
+            alt={picture.name}
+          />
         </PictureWrapper>
       </Content>
     </Overlay>
@@ -42,6 +48,7 @@ const Overlay = styled(DialogOverlay)`
   padding: 80px;
   background-color: var(--color-backdrop);
   cursor: zoom-out;
+  overflow: auto;
 
   @media ${QUERIES.mobileAndSmaller} {
     padding: 80px 16px;
@@ -51,39 +58,32 @@ const Overlay = styled(DialogOverlay)`
 const Content = styled(DialogContent)`
   position: relative;
   cursor: initial;
-  display: grid;
-  grid-template-columns: 1fr max-content;
-  grid-template-areas:
-    "title download"
-    "picture picture";
-  align-items: center;
   background-color: var(--color-white);
   padding: 16px;
-  min-width: 100%;
   border-radius: 8px;
 
   @media ${QUERIES.tabletAndSmaller} {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      "title"
-      "picture"
-      "download";
   }
 `;
 
-const PictureTitle = styled(Title)`
-  grid-area: title;
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
 `;
 
-const DownloadLink = styled(LinkAsButton)`
-  grid-area: download;
-`;
+const PictureTitle = styled(Title)``;
+
+const DownloadLink = styled(LinkAsButton)``;
 
 const PictureWrapper = styled.figure`
-  overflow: hidden;
-  grid-area: picture;
+  height: 80%;
 
   & img {
+    height: 100%;
     width: 100%;
   }
 `;

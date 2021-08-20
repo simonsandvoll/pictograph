@@ -72,15 +72,14 @@ const GlobalStyles = createGlobalStyle`
     --color-gray-900: hsl(${COLORS.gray[900]});
 
     --color-backdrop: hsl(${COLORS.gray[700]} / 0.8);
+
+    background-color: var(--color-gray-100);
     /*
       Silence the warning about missing Reach Dialog styles
     */
     --reach-dialog: 1;
   }
 
-  html, body, #root {
-    height: 100%;
-  }
 `;
 
 export default GlobalStyles;

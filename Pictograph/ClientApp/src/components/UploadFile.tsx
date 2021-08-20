@@ -35,7 +35,7 @@ export default function UploadFile() {
       formData.append("fileName", fileName);
       setUploading(true);
       try {
-        const res = await fetch("storage", { method: "post", body: formData });
+        await fetch("storage", { method: "post", body: formData });
         setErrorMessage("");
       } catch (ex) {
         setErrorMessage("Could not upload file, try again");

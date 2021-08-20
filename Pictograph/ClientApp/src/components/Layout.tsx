@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Footer from "./Footer";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import NavMenu from "./NavMenu";
 
@@ -9,11 +10,14 @@ export default function Layout({
   children: React.ReactNode | React.ReactNode[];
 }) {
   return (
-    <div>
+    <>
       <NavMenu />
       <Wrapper>{children}</Wrapper>
-    </div>
+      <Footer />
+    </>
   );
 }
 
-const Wrapper = styled(MaxWidthWrapper)``;
+const Wrapper = styled(MaxWidthWrapper)`
+  min-height: 80vh;
+`;

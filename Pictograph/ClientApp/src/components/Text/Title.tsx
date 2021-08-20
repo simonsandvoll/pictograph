@@ -4,6 +4,7 @@ import { QUERIES, WEIGHTS } from "../../constants";
 const Title = styled.h1`
   font-size: ${46 / 16}rem;
   font-weight: ${WEIGHTS.bold};
+  color: var(--color-gray-900);
 
   @media ${QUERIES.tabletAndSmaller} {
     font-size: ${24 / 16}rem;
