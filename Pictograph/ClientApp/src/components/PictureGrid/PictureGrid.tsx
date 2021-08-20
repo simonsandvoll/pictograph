@@ -10,8 +10,12 @@ import useWindowSize from "../Hooks/useWindowSize";
 type Sizes = "s" | "m" | "l";
 
 export interface Picture {
+  id: string;
   name: string;
   url: string;
+  title: string;
+  description: string;
+  tags: string[];
   createdOn?: string;
 }
 
@@ -116,11 +120,12 @@ export default function PictureGrid({ size = "m" }: Props) {
           pictures.map((arr, i) => (
             <Column key={arr[0].name + i}>
               {arr.map((picture) => (
-                <PictureWrapper key={picture.name}>
+                <PictureWrapper key={picture.id}>
                   <ImgButton onClick={() => open(picture)}>
                     <img
                       sizes="(min-width: 1335px) 416px, (min-width: 992px) calc(calc(100vw - 72px) / 3), (min-width: 768px) calc(calc(100vw - 48px) / 2), 100vw"
-                      alt={picture.name}
+                      title={picture.name}
+                      alt={picture.description}
                       src={picture.url}
                     />
                   </ImgButton>

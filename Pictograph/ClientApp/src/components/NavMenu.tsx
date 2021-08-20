@@ -25,7 +25,6 @@ export default function NavMenu() {
 const Wrapper = styled.header`
   margin-bottom: 46px;
   position: sticky;
-  height: ${72 / 16}rem;
   background-color: var(--color-gray-100);
   top: 0;
   z-index: 2;
@@ -33,10 +32,6 @@ const Wrapper = styled.header`
 
   @media ${QUERIES.tabletAndSmaller} {
     margin-bottom: 16px;
-  }
-
-  @media ${QUERIES.mobileAndSmaller} {
-    height: 102px;
   }
 `;
 

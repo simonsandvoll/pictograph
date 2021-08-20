@@ -2,6 +2,7 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Pictograph.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,7 +36,20 @@ namespace Pictograph.Repositories
                     foreach (BlobItem blobItem in blobPage.Values)
                     {
                         var tempClient = _containerClient.GetBlobClient(blobItem.Name);
-                        blobNames.Add(new Picture(blobItem.Name, tempClient.Uri.ToString(), blobItem.Properties.CreatedOn));
+                        var metadata = tempClient.GetProperties().Value.Metadata;
+                        metadata.TryGetValue("id", out string id);
+                        metadata.TryGetValue("title", out string title);
+                        metadata.TryGetValue("description", out string description);
+                        metadata.TryGetValue("tags", out string tags);
+                        blobNames.Add(new Picture(
+                            id ?? Guid.NewGuid().ToString(),
+                            blobItem.Name,
+                            tempClient.Uri.ToString(),
+                            title ?? blobItem.Name,
+                            description ?? "",
+                            tags?.Split(',') ?? Array.Empty<string>(),
+                            blobItem.Properties.CreatedOn
+                        ));
                     }
                 }
                 return blobNames.OrderByDescending(b => b.CreatedOn).ToList();
@@ -49,12 +63,17 @@ namespace Pictograph.Repositories
         public async Task<bool> UploadFile(FileModel file)
         {
             var client = _containerClient.GetBlobClient(file.FileName);
+            var metaData = new Dictionary<string, string>();
+            metaData.Add("id", Guid.NewGuid().ToString());
+            metaData.Add("title", file.Title);
+            metaData.Add("description", file.Description);
+            metaData.Add("tags", string.Join(',', file.Tags));
             try
             {
-                await client.UploadAsync(file.FormFile.OpenReadStream());
+                await client.UploadAsync(file.FormFile.OpenReadStream(), new BlobUploadOptions { Metadata = metaData });
                 return true;
             }
-            catch
+            catch (RequestFailedException e)
             {
                 return false;
             }

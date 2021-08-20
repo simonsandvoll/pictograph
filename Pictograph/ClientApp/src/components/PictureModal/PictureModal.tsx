@@ -7,6 +7,7 @@ import { QUERIES } from "../../constants";
 import LinkAsButton from "../LinkAsButton";
 import { snippWord } from "../Tools/WordSnipp";
 import { Picture } from "../PictureGrid/PictureGrid";
+import Paragraph from "../Text/Paragraph";
 
 interface Props {
   isOpen: boolean;
@@ -20,16 +21,18 @@ export default function PictureModal({ isOpen, onDismiss, picture }: Props) {
       <Content aria-label="Picture modal">
         <CloseButton onClick={onDismiss}>Close</CloseButton>
         <TitleWrapper>
-          <PictureTitle>{snippWord(picture.name.split(".")[0])}</PictureTitle>
+          <PictureTitle>{snippWord(picture.title)}</PictureTitle>
           <DownloadLink href={picture.url} download>
             Download
           </DownloadLink>
         </TitleWrapper>
+        <Description>{picture.description}</Description>
+
         <PictureWrapper>
           <img
             sizes="(min-width: 1335px) 416px, (min-width: 992px) calc(calc(100vw - 72px) / 3), (min-width: 768px) calc(calc(100vw - 48px) / 2), 100vw"
             src={picture.url}
-            alt={picture.name}
+            alt={picture.description}
           />
         </PictureWrapper>
       </Content>
@@ -78,6 +81,10 @@ const TitleWrapper = styled.div`
 const PictureTitle = styled(Title)``;
 
 const DownloadLink = styled(LinkAsButton)``;
+
+const Description = styled(Paragraph)`
+  margin-bottom: 16px;
+`;
 
 const PictureWrapper = styled.figure`
   height: 80%;
