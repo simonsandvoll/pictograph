@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 import Title from "../Text/Title";
 import UnstyledButton from "../UnstyledButton";
-import { QUERIES } from "../../constants";
+import { QUERIES, WEIGHTS } from "../../constants";
 import LinkAsButton from "../LinkAsButton";
 import { snippWord } from "../Tools/WordSnipp";
 import { Picture } from "../PictureGrid/PictureGrid";
@@ -35,6 +35,14 @@ export default function PictureModal({ isOpen, onDismiss, picture }: Props) {
             alt={picture.description}
           />
         </PictureWrapper>
+        <TagTitle>Related tags:</TagTitle>
+        <TagList>
+          {picture.tags.map((tag) => (
+            <Tag key={tag}>
+              <UnstyledButton>{tag}</UnstyledButton>
+            </Tag>
+          ))}
+        </TagList>
       </Content>
     </Overlay>
   ) : (
@@ -93,6 +101,7 @@ const PictureWrapper = styled.figure`
     height: 100%;
     width: 100%;
   }
+  margin-bottom: 16px;
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -103,4 +112,37 @@ const CloseButton = styled(UnstyledButton)`
   padding: 16px;
   color: white;
   font-size: ${18 / 16}rem;
+`;
+
+const TagTitle = styled(Paragraph)`
+  font-size: ${18 / 16}rem;
+  font-weight: ${WEIGHTS.medium};
+`;
+
+const TagList = styled.ul`
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+`;
+
+const Tag = styled.li`
+  display: flex;
+  align-items: center;
+  background-color: var(--color-primary);
+  border: 2px solid transparent;
+  white-space: nowrap;
+  color: var(--color-white);
+  border-radius: 8px;
+  padding: 8px;
+
+  ${UnstyledButton} {
+    color: inherit;
+  }
+
+  &:hover {
+    border-color: var(--color-primary);
+    background-color: unset;
+    color: var(--color-gray-900);
+  }
 `;
