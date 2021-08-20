@@ -3,11 +3,11 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pictograph.Repositories;
 using Pictograph.Services;
 using System;
 
@@ -28,7 +28,11 @@ namespace Pictograph
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IStorageService>(new StorageService(GetStorageConnectionString()));
+            var repo = new StorageRepository(GetStorageConnectionString());
+            var cache = new Cache();
+            services.AddSingleton<IStorageRepository>(repo);
+            services.AddSingleton<ICache>(new Cache());
+            services.AddSingleton<IStorageService>(new StorageService(cache, repo));
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory

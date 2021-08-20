@@ -6,11 +6,8 @@ namespace Pictograph.Services
 {
     public interface IStorageService
     {
-        bool IsConnected();
-
         Task<Result<IReadOnlyList<Picture>>> ListBlobs();
 
         Task<Result<bool>> UploadFile(FileModel file);
-
     }
 }
